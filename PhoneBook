@@ -1,0 +1,38 @@
+import java.util.*;
+
+public class PhoneBook {
+    private final HashMap<String, List<String>> contacts;
+
+    public PhoneBook() {
+        contacts = new HashMap<>();
+    }
+
+    public void addContact(String name, String phoneNumber) {
+        List<String> phoneNumbers = contacts.computeIfAbsent(name, k -> new ArrayList<>());
+        phoneNumbers.add(phoneNumber);
+    }
+
+    public void printPhoneBook() {
+        List<Map.Entry<String, List<String>>> sortedEntries = new ArrayList<>(contacts.entrySet());
+
+        sortedEntries.sort(Comparator.comparing(e -> -e.getValue().size()));
+
+        for (Map.Entry<String, List<String>> entry : sortedEntries) {
+            System.out.println(entry.getKey() + ": " + entry.getValue());
+        }
+    }
+
+    public static void main(String[] args) {
+        PhoneBook phoneBook = new PhoneBook();
+        phoneBook.addContact("Иван", "123456789");
+        phoneBook.addContact("Петр", "222222222");
+        phoneBook.addContact("Петр", "555555555");
+        phoneBook.addContact("Иван", "123456789");
+        phoneBook.addContact("Петр", "987654321");
+        phoneBook.addContact("Мария", "111111111");
+        phoneBook.addContact("Иван", "555555555");
+        phoneBook.addContact("Петр", "222222222");
+        phoneBook.addContact("Мария", "333333333");
+        phoneBook.printPhoneBook();
+    }
+}
